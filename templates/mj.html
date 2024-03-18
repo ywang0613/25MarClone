@@ -1,6 +1,18 @@
+<style>
+    .container {
+        width: 100%;
+        margin: auto;
+    }
+    @media (min-width: 600px) {.container {width:80%;}}
+    @media (min-width: 768px) {.container {width:60%;}}
+    @media (min-width: 1024px) {.container {width:50%;}}
+</style>
+
+<div class="container">
 <h2>Welcome to image generator by Midjourney</h2>
 <form action="/mj_query" method="post">
     <h2><p>Please describe your image: </p></h2>
     <p><input type="text" name="q"></p>
     <p><input type="submit" value="Enter"></p>
 </form>
+</div>
