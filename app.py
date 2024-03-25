@@ -98,7 +98,8 @@ def db_delete_sucess():
 
 @app.route("/end", methods=["GET","POST"])
 def end():
-    return(render_template("end.html",r=name))
+    change_name_flag = 0
+    return(render_template("index.html",r=name))
 
 if __name__ == "__main__":
     app.run()
