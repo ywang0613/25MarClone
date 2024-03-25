@@ -99,7 +99,7 @@ def db_delete_sucess():
 @app.route("/end", methods=["GET","POST"])
 def end():
     global change_name_flag
-    change_name_flag = 0
+    change_name_flag = 1
     return(render_template("index.html",r=name))
 
 if __name__ == "__main__":
