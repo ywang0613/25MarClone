@@ -1,7 +1,11 @@
 from flask import Flask, request, render_template
+from flask import Markup
+
 import google.generativeai as palm
 import replicate
 import os
+import sqlite3
+import datetime
 
 palm.configure(api_key="AIzaSyCCT1K99BJ1JbLwhCE7qOcQ5KOZcPJ9ZZ4")
 model = {
@@ -10,11 +14,28 @@ model = {
 
 os.environ["REPLICATE_API_TOKEN"] = "787f515cb0624813736c11e7fefec66473394f02"
 
+change_name_flag = 1
+name = ""
+
 app = Flask(__name__)
 
 @app.route("/", methods=["GET","POST"])
 def index():
     return(render_template("index.html"))
+
+@app.route("/main", methods=["GET","POST"])
+def main():
+    global name, change_name_flag
+    if change_name_flag == 1:
+        name = request.form.get("name")
+        change_name_flag = 0
+        dt = datetime.datetime.now()
+        conn = sqlite3.connect('log.db')
+        c = conn.execute("insert into customer (name,timestamp) values (?,?)",(name,dt))
+        conn.commit()
+        c.close()
+        conn.close()
+    return(render_template("main.html",r=name))
 
 @app.route("/palm", methods=["GET","POST"])
 def palm_flask():
@@ -43,6 +64,41 @@ def mj_query():
         input={"prompt": q}
     )
     return(render_template("mj_reply.html",r=r[0]))
+
+@app.route("/db_query", methods=["GET","POST"])
+def db_query():
+    conn = sqlite3.connect('log.db')
+    c = conn.execute("select * from customer")
+    r = ""
+    for row in c:
+        print(row)
+        r = r+str(row)+"<br>"
+    c.close()
+    conn.close()
+    r = Markup(r)
+    return(render_template("db_query.html",r=r))
+
+@app.route("/db_delete", methods=["GET","POST"])
+def db_delete():
+    return(render_template("db_delete.html"))
+
+@app.route("/db_delete_success", methods=["GET","POST"])
+def db_delete_sucess():
+    password = request.form.get("password")
+    if password == "1234":
+        conn = sqlite3.connect('log.db')
+        c = conn.execute("delete from customer")
+        conn.commit()
+        c.close()
+        conn.close()
+        return(render_template("db_delete_sucess.html"))
+    else:
+        print("password wrong")
+        return(render_template("db_delete_fail.html"))
+
+@app.route("/end", methods=["GET","POST"])
+def end():
+    return(render_template("end.html",r=name))
 
 if __name__ == "__main__":
     app.run()
