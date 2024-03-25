@@ -7,12 +7,12 @@ import os
 import sqlite3
 import datetime
 
-palm.configure(api_key="AIzaSyCCT1K99BJ1JbLwhCE7qOcQ5KOZcPJ9ZZ4")
+palm.configure(api_key="AIzaSyDgmTVwLcUX8D6yi3GeBEIS7y5m9j2CEaw")
 model = {
     "model": "models/chat-bison-001",
 }
 
-os.environ["REPLICATE_API_TOKEN"] = "787f515cb0624813736c11e7fefec66473394f02"
+os.environ["REPLICATE_API_TOKEN"] = "r8_WR6BJXiTA7ce5FwsJBT8Glc4Cwz5j8013rgxP"
 
 change_name_flag = 1
 name = ""
