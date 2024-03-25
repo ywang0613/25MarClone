@@ -9,9 +9,9 @@
 </style>
 
 <div class="container">
-<h4>The image weblink is : {{r}}</h4>
-<img src={{r}} width="320" height="240">
-<form action="/main" method="post">
-    <p><input type="submit" value="Main"></p>
+<h4>Please enter the password to delete all the data : </h4>
+<form action="/db_delete_success" method="post">
+    <p><input type="text" name="password"></p>
+    <p><input type="submit" value="Confirm Delete All Data"></p>
 </form>
 </div>
